@@ -1,0 +1,5 @@
+export default {
+  ADD: 'ADD_CONTACTS',
+  DELETE: 'DELETE_CONTACTS',
+  FILTER: 'SET_FILTER',
+};

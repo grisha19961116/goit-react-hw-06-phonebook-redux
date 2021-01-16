@@ -2,8 +2,10 @@ import style from './ContactForm.module.css';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { connect } from 'react-redux';
+import { actionAddContact } from '../../redux/reduxActions';
 
-function ContactForm({ onAdd, onCheckUnique }) {
+function ContactForm({ items, onAdd }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -21,6 +23,12 @@ function ContactForm({ onAdd, onCheckUnique }) {
         console.log('Sorry, we are not have ' + name + '.');
     }
   };
+  const handleCheckUniqueContact = (items, name) => {
+    const isExistContact = !!items.find(contact => contact.name === name);
+    isExistContact && alert('Contact is already exist');
+
+    return !isExistContact;
+  };
 
   const validateFrom = () => {
     if (!name || !phone) {
@@ -28,7 +36,7 @@ function ContactForm({ onAdd, onCheckUnique }) {
       return false;
     }
 
-    return onCheckUnique(name);
+    return handleCheckUniqueContact(items, name);
   };
 
   const resetForm = () => {
@@ -46,20 +54,6 @@ function ContactForm({ onAdd, onCheckUnique }) {
 
     onAdd(newContact);
     resetForm();
-
-    const savedSettings = localStorage.getItem('name');
-    const parsedSettings = JSON.parse(savedSettings);
-
-    if (parsedSettings === null || parsedSettings.length === 0) {
-      localStorage.setItem('name', JSON.stringify([newContact]));
-      return;
-    }
-
-    if (parsedSettings.length !== 0) {
-      const array = [...parsedSettings, newContact];
-      localStorage.setItem('name', JSON.stringify(array));
-      return;
-    }
   };
 
   return (
@@ -82,4 +76,12 @@ function ContactForm({ onAdd, onCheckUnique }) {
     </form>
   );
 }
-export default ContactForm;
+const mapStateToProps = state => ({
+  items: state.items,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onAdd: newContact => dispatch(actionAddContact(newContact)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
