@@ -8,12 +8,22 @@ import style from './App.module.css';
 function App() {
   return (
     <>
-      <h2>From Contact</h2>
+      <h2 className={style.titleList}>From Contact</h2>
       <ContactForm />
-      <h2>Contacts list</h2>
+      <h2 className={style.titleList}>Contacts list</h2>
       <Filter />
       <ContactList />
-      <ToastContainer></ToastContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

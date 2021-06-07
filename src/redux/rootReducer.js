@@ -4,15 +4,24 @@ import actionsType from './actionsType';
 function reducerContacts(state = [], { type, payload }) {
   switch (type) {
     case actionsType.ADD:
-      return [...state, payload];
+      const arrayAdd = [...state, payload];
+      localStorage.setItem('name', JSON.stringify(arrayAdd));
+      return arrayAdd;
+
+    case actionsType.LC:
+      console.log(payload, `actionsType lc`);
+      return payload;
 
     case actionsType.DELETE:
-      return [...state.filter(contact => contact.id !== payload)];
+      const arrayRemove = [...state.filter(contact => contact.id !== payload)];
+      localStorage.setItem('name', JSON.stringify(arrayRemove));
+      return arrayRemove;
 
     default:
       return state;
   }
 }
+
 function reducerFilter(state = '', { type, payload }) {
   if (actionsType.FILTER === type) {
     return payload;
@@ -20,6 +29,6 @@ function reducerFilter(state = '', { type, payload }) {
   return state;
 }
 export const rootReducer = combineReducers({
-  items: reducerContacts,
+  contacts: reducerContacts,
   filter: reducerFilter,
 });

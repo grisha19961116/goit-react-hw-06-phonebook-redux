@@ -4,6 +4,11 @@ const actionAddContact = newContact => ({
   payload: newContact,
 });
 
+const actionContactFromLC = arrayContacts => ({
+  type: actionsType.LC,
+  payload: arrayContacts,
+});
+
 const actionRemoveContact = id => ({
   type: actionsType.DELETE,
   payload: id,
@@ -13,4 +18,9 @@ const actionSetFilter = filter => ({
   type: actionsType.FILTER,
   payload: filter,
 });
-export { actionAddContact, actionRemoveContact, actionSetFilter };
+export {
+  actionAddContact,
+  actionContactFromLC,
+  actionRemoveContact,
+  actionSetFilter,
+};
